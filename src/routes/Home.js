@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import ToDo from '../components/ToDo';
 import { actionCreatros } from '../store';
 
 function Home({ toDos, addToDo, deleteToDo }) {
@@ -22,7 +23,7 @@ function Home({ toDos, addToDo, deleteToDo }) {
       </form>
       <ul>
         {toDos?.map((toDo) => (
-          <li>{toDo.text}</li>
+          <ToDo {...toDo} key={toDo.id} />
         ))}
       </ul>
     </>
@@ -39,7 +40,6 @@ function mapDispatchToProps(dispatch) {
   console.log(dispatch);
   return {
     addToDo: (text) => dispatch(actionCreatros.addToDo(text)),
-    deleteToDo: (id) => dispatch(actionCreatros.deleteToDo(id)),
   };
 }
 
