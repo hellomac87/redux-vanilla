@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import ToDo from '../components/ToDo';
-import { add } from '../store';
+import { add,  RootState } from '../store';
 
-function Home({ toDos, addToDo, deleteToDo }) {
+function Home() {
+  const toDos = useSelector((state: RootState) => state);
   const [text, setText] = useState('');
-  function onChange(e) {
+
+  const dispatch = useDispatch();
+
+  function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     setText(e.target.value);
   }
-  function onSubmit(e) {
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    addToDo(text);
+    dispatch(add(text));
     setText('');
   }
   return (
@@ -30,16 +34,5 @@ function Home({ toDos, addToDo, deleteToDo }) {
   );
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    toDos: state,
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addToDo: (text) => dispatch(add(text)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
